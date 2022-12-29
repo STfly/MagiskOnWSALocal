@@ -23,7 +23,7 @@ import zipfile
 from pathlib import Path
 import platform
 import os
-from typing import OrderedDict
+from collections import OrderedDict
 
 class Prop(OrderedDict):
     def __init__(self, props: str=...) -> None:

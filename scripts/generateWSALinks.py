@@ -27,7 +27,7 @@ import warnings
 import re
 from pathlib import Path
 import os
-from typing import OrderedDict
+from collections import OrderedDict
 
 class Prop(OrderedDict):
     def __init__(self, props: str=...) -> None:
@@ -63,7 +63,7 @@ print(f"Generating WSA download link: arch={arch} release_type={release_name}", 
 with open(Path.cwd().parent / ("xml/GetCookie.xml"), "r") as f:
     cookie_content = f.read().format(user)
 
-out = requests.post(
+out = requests.post(url=
     'https://fe3.delivery.mp.microsoft.com/ClientWebService/client.asmx',
     data=cookie_content,
     headers={'Content-Type': 'application/soap+xml; charset=utf-8'},
@@ -75,7 +75,7 @@ cookie = doc.getElementsByTagName('EncryptedData')[0].firstChild.nodeValue
 with open(Path.cwd().parent / "xml/WUIDRequest.xml", "r") as f:
     cat_id_content = f.read().format(user, cookie, cat_id, release_type)
 
-out = requests.post(
+out = requests.post(url=
     'https://fe3.delivery.mp.microsoft.com/ClientWebService/client.asmx',
     data=cat_id_content,
     headers={'Content-Type': 'application/soap+xml; charset=utf-8'},
@@ -122,7 +122,7 @@ for i, v, f in identities:
         out_file = download_dir / out_file_name
     else:
         continue
-    out = requests.post(
+    out = requests.post(url=
         'https://fe3.delivery.mp.microsoft.com/ClientWebService/client.asmx/secured',
         data=FE3_file_content.format(user, i, v, release_type),
         headers={'Content-Type': 'application/soap+xml; charset=utf-8'},
